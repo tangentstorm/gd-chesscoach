@@ -16,9 +16,9 @@ dest_files=["res://.godot/imported/bq.png-9f20e7e3787eefde4a293375107d539d.ctex"
 [params]
 
 compress/mode=0
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=false
