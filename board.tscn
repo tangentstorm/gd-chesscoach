@@ -1,6 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://c0bw7n8jqbv0x"]
+[gd_scene load_steps=23 format=3 uid="uid://c0bw7n8jqbv0x"]
 
 [ext_resource type="PackedScene" uid="uid://devu8a8lpb2co" path="res://square.tscn" id="1_jio5e"]
+[ext_resource type="Script" path="res://Tray.gd" id="1_mub75"]
+[ext_resource type="Script" path="res://ChessBoard.gd" id="1_yn2qr"]
 [ext_resource type="Texture2D" uid="uid://bqq3t6xtdx7e2" path="res://sprites/bb.png" id="2_50ipe"]
 [ext_resource type="Texture2D" uid="uid://clodo48syi8i" path="res://sprites/wp.png" id="3_qwmjw"]
 [ext_resource type="Texture2D" uid="uid://bi186xtbt4vyp" path="res://sprites/bp.png" id="4_3kjx2"]
@@ -13,625 +15,1114 @@
 [ext_resource type="Texture2D" uid="uid://t1yexj1wodlk" path="res://sprites/bq.png" id="11_eo4d2"]
 [ext_resource type="Texture2D" uid="uid://30els0jnjg0q" path="res://sprites/br.png" id="12_vqel2"]
 [ext_resource type="Texture2D" uid="uid://c58jwjgv7n3yw" path="res://sprites/bn.png" id="13_he2jj"]
+[ext_resource type="Script" path="res://GameEditor.gd" id="16_73dlk"]
 
-[node name="ranks" type="VBoxContainer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ygayg"]
+bg_color = Color(0.1798, 0.24924, 0.31, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rcfrt"]
+bg_color = Color(0.197727, 0.327482, 0.44148, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fuis7"]
+bg_color = Color(0.1798, 0.24924, 0.31, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Animation" id="Animation_caxod"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("pieces/r0:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("pieces/n0:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(50, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("pieces/b0:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(100, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("pieces/q0:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(150, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("pieces/k0:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("pieces/b1:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(250, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("pieces/n1:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(300, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("pieces/r1:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(350, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("pieces/p0:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 50)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("pieces/p1:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(50, 50)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("pieces/p2:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(100, 50)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("pieces/p3:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(150, 50)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("pieces/p4:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 50)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("pieces/p5:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(250, 50)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("pieces/p6:position")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(300, 50)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("pieces/p7:position")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(350, 50)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("pieces/P0:position")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 300)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("pieces/P1:position")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(50, 300)]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("pieces/P2:position")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(100, 300)]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("pieces/P3:position")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(150, 300)]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("pieces/P4:position")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 300)]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("pieces/P5:position")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(250, 300)]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("pieces/P6:position")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(300, 300)]
+}
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("pieces/P7:position")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(350, 300)]
+}
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("pieces/R0:position")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 350)]
+}
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("pieces/N0:position")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(50, 350)]
+}
+tracks/26/type = "value"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("pieces/B0:position")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(100, 350)]
+}
+tracks/27/type = "value"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath("pieces/Q0:position")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(150, 350)]
+}
+tracks/28/type = "value"
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/path = NodePath("pieces/K0:position")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 350)]
+}
+tracks/29/type = "value"
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/path = NodePath("pieces/B1:position")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(250, 350)]
+}
+tracks/30/type = "value"
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/path = NodePath("pieces/N1:position")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(300, 350)]
+}
+tracks/31/type = "value"
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/path = NodePath("pieces/R1:position")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(350, 350)]
+}
+
+[sub_resource type="Animation" id="Animation_817ud"]
+resource_name = "fool's mate"
+length = 7.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("pieces/P5:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(250, 300), Vector2(250, 250)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("pieces/p4:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.5, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(200, 50), Vector2(200, 100)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("pieces/P6:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(4, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(300, 300), Vector2(300, 200)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("pieces/q0:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(5.5, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(150, 0), Vector2(350, 200)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i6x5j"]
+_data = {
+"RESET": SubResource("Animation_caxod"),
+"fool's mate": SubResource("Animation_817ud")
+}
+
+[node name="vbox" type="VBoxContainer"]
+offset_right = 398.0
+offset_bottom = 398.0
+
+[node name="white-tray" type="Panel" parent="."]
+visible = false
+custom_minimum_size = Vector2(398, 96)
+layout_direction = 2
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ygayg")
+script = ExtResource("1_mub75")
+
+[node name="board" type="Panel" parent="."]
+clip_children = 2
+texture_filter = 1
+clip_contents = true
+custom_minimum_size = Vector2(398, 398)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_rcfrt")
+script = ExtResource("1_yn2qr")
+plies = Array[String](["g2g3", "e3e5", ""])
+
+[node name="ranks" type="VBoxContainer" parent="board"]
+layout_mode = 1
+offset_right = 398.0
+offset_bottom = 398.0
+theme_override_constants/separation = 2
+metadata/_edit_lock_ = true
+
+[node name="rank8" type="HBoxContainer" parent="board/ranks"]
+layout_mode = 2
+theme_override_constants/separation = 2
+metadata/_edit_lock_ = true
+
+[node name="a8" parent="board/ranks/rank8" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="b8" parent="board/ranks/rank8" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="c8" parent="board/ranks/rank8" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="d8" parent="board/ranks/rank8" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="e8" parent="board/ranks/rank8" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="f8" parent="board/ranks/rank8" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="g8" parent="board/ranks/rank8" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="h8" parent="board/ranks/rank8" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="rank7" type="HBoxContainer" parent="board/ranks"]
+layout_mode = 2
+theme_override_constants/separation = 2
+metadata/_edit_lock_ = true
+
+[node name="a7" parent="board/ranks/rank7" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="b7" parent="board/ranks/rank7" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="c7" parent="board/ranks/rank7" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="d7" parent="board/ranks/rank7" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="e7" parent="board/ranks/rank7" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="f7" parent="board/ranks/rank7" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="g7" parent="board/ranks/rank7" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="h7" parent="board/ranks/rank7" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="rank6" type="HBoxContainer" parent="board/ranks"]
+layout_mode = 2
+theme_override_constants/separation = 2
+metadata/_edit_lock_ = true
+
+[node name="a6" parent="board/ranks/rank6" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="b6" parent="board/ranks/rank6" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="c6" parent="board/ranks/rank6" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="d6" parent="board/ranks/rank6" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="e6" parent="board/ranks/rank6" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="f6" parent="board/ranks/rank6" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="g6" parent="board/ranks/rank6" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="h6" parent="board/ranks/rank6" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="rank5" type="HBoxContainer" parent="board/ranks"]
+layout_mode = 2
+theme_override_constants/separation = 2
+metadata/_edit_lock_ = true
+
+[node name="a5" parent="board/ranks/rank5" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="b5" parent="board/ranks/rank5" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="c5" parent="board/ranks/rank5" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="d5" parent="board/ranks/rank5" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="e5" parent="board/ranks/rank5" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="f5" parent="board/ranks/rank5" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="g5" parent="board/ranks/rank5" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="h5" parent="board/ranks/rank5" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="rank4" type="HBoxContainer" parent="board/ranks"]
+layout_mode = 2
+theme_override_constants/separation = 2
+metadata/_edit_lock_ = true
+
+[node name="a4" parent="board/ranks/rank4" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="b4" parent="board/ranks/rank4" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="c4" parent="board/ranks/rank4" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="d4" parent="board/ranks/rank4" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="e4" parent="board/ranks/rank4" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="f4" parent="board/ranks/rank4" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="g4" parent="board/ranks/rank4" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="h4" parent="board/ranks/rank4" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="rank3" type="HBoxContainer" parent="board/ranks"]
+layout_mode = 2
+theme_override_constants/separation = 2
+metadata/_edit_lock_ = true
+
+[node name="a3" parent="board/ranks/rank3" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="b3" parent="board/ranks/rank3" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="c3" parent="board/ranks/rank3" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="d3" parent="board/ranks/rank3" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="e3" parent="board/ranks/rank3" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="f3" parent="board/ranks/rank3" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="g3" parent="board/ranks/rank3" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="h3" parent="board/ranks/rank3" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="rank2" type="HBoxContainer" parent="board/ranks"]
+layout_mode = 2
+theme_override_constants/separation = 2
+metadata/_edit_lock_ = true
+
+[node name="a2" parent="board/ranks/rank2" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="b2" parent="board/ranks/rank2" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="c2" parent="board/ranks/rank2" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="d2" parent="board/ranks/rank2" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="e2" parent="board/ranks/rank2" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="f2" parent="board/ranks/rank2" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="g2" parent="board/ranks/rank2" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="h2" parent="board/ranks/rank2" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="rank1" type="HBoxContainer" parent="board/ranks"]
+layout_mode = 2
+theme_override_constants/separation = 2
+metadata/_edit_lock_ = true
+
+[node name="a1" parent="board/ranks/rank1" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="b1" parent="board/ranks/rank1" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="c1" parent="board/ranks/rank1" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="d1" parent="board/ranks/rank1" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="e1" parent="board/ranks/rank1" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="f1" parent="board/ranks/rank1" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="g1" parent="board/ranks/rank1" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+color = Color(0.380392, 0.560784, 0.721569, 1)
+dark = true
+metadata/_edit_lock_ = true
+
+[node name="h1" parent="board/ranks/rank1" instance=ExtResource("1_jio5e")]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="pieces" type="Control" parent="board"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="rank8" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_right = 1152.0
-offset_bottom = 48.0
-
-[node name="a8" parent="rank8" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_right = 48.0
-offset_bottom = 48.0
-
-[node name="b8" parent="rank8" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 52.0
-offset_right = 100.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="c8" parent="rank8" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 104.0
-offset_right = 152.0
-offset_bottom = 48.0
-
-[node name="d8" parent="rank8" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 156.0
-offset_right = 204.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="e8" parent="rank8" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 208.0
-offset_right = 256.0
-offset_bottom = 48.0
-
-[node name="f8" parent="rank8" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 260.0
-offset_right = 308.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="g8" parent="rank8" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 312.0
-offset_right = 360.0
-offset_bottom = 48.0
-
-[node name="h8" parent="rank8" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 364.0
-offset_right = 412.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="rank7" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_top = 52.0
-offset_right = 1152.0
-offset_bottom = 100.0
-
-[node name="a7" parent="rank7" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_right = 48.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="b7" parent="rank7" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 52.0
-offset_right = 100.0
-offset_bottom = 48.0
-
-[node name="c7" parent="rank7" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 104.0
-offset_right = 152.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="d7" parent="rank7" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 156.0
-offset_right = 204.0
-offset_bottom = 48.0
-
-[node name="e7" parent="rank7" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 208.0
-offset_right = 256.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="f7" parent="rank7" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 260.0
-offset_right = 308.0
-offset_bottom = 48.0
-
-[node name="g7" parent="rank7" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 312.0
-offset_right = 360.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="h7" parent="rank7" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 364.0
-offset_right = 412.0
-offset_bottom = 48.0
-
-[node name="rank6" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_top = 104.0
-offset_right = 1152.0
-offset_bottom = 152.0
-
-[node name="a6" parent="rank6" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_right = 48.0
-offset_bottom = 48.0
-
-[node name="b6" parent="rank6" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 52.0
-offset_right = 100.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="c6" parent="rank6" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 104.0
-offset_right = 152.0
-offset_bottom = 48.0
-
-[node name="d6" parent="rank6" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 156.0
-offset_right = 204.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="e6" parent="rank6" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 208.0
-offset_right = 256.0
-offset_bottom = 48.0
-
-[node name="f6" parent="rank6" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 260.0
-offset_right = 308.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="g6" parent="rank6" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 312.0
-offset_right = 360.0
-offset_bottom = 48.0
-
-[node name="h6" parent="rank6" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 364.0
-offset_right = 412.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="rank5" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_top = 156.0
-offset_right = 1152.0
-offset_bottom = 204.0
-
-[node name="a5" parent="rank5" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_right = 48.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="b5" parent="rank5" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 52.0
-offset_right = 100.0
-offset_bottom = 48.0
-
-[node name="c5" parent="rank5" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 104.0
-offset_right = 152.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="d5" parent="rank5" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 156.0
-offset_right = 204.0
-offset_bottom = 48.0
-
-[node name="e5" parent="rank5" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 208.0
-offset_right = 256.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="f5" parent="rank5" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 260.0
-offset_right = 308.0
-offset_bottom = 48.0
-
-[node name="g5" parent="rank5" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 312.0
-offset_right = 360.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="h5" parent="rank5" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 364.0
-offset_right = 412.0
-offset_bottom = 48.0
-
-[node name="rank4" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_top = 208.0
-offset_right = 1152.0
-offset_bottom = 256.0
-
-[node name="a4" parent="rank4" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_right = 48.0
-offset_bottom = 48.0
-
-[node name="b4" parent="rank4" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 52.0
-offset_right = 100.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="c4" parent="rank4" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 104.0
-offset_right = 152.0
-offset_bottom = 48.0
-
-[node name="d4" parent="rank4" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 156.0
-offset_right = 204.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="e4" parent="rank4" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 208.0
-offset_right = 256.0
-offset_bottom = 48.0
-
-[node name="f4" parent="rank4" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 260.0
-offset_right = 308.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="g4" parent="rank4" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 312.0
-offset_right = 360.0
-offset_bottom = 48.0
-
-[node name="h4" parent="rank4" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 364.0
-offset_right = 412.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="rank3" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_top = 260.0
-offset_right = 1152.0
-offset_bottom = 308.0
-
-[node name="a3" parent="rank3" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_right = 48.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="b3" parent="rank3" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 52.0
-offset_right = 100.0
-offset_bottom = 48.0
-
-[node name="c3" parent="rank3" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 104.0
-offset_right = 152.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="d3" parent="rank3" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 156.0
-offset_right = 204.0
-offset_bottom = 48.0
-
-[node name="e3" parent="rank3" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 208.0
-offset_right = 256.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="f3" parent="rank3" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 260.0
-offset_right = 308.0
-offset_bottom = 48.0
-
-[node name="g3" parent="rank3" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 312.0
-offset_right = 360.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="h3" parent="rank3" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 364.0
-offset_right = 412.0
-offset_bottom = 48.0
-
-[node name="rank2" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_top = 312.0
-offset_right = 1152.0
-offset_bottom = 360.0
-
-[node name="a2" parent="rank2" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_right = 48.0
-offset_bottom = 48.0
-
-[node name="b2" parent="rank2" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 52.0
-offset_right = 100.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="c2" parent="rank2" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 104.0
-offset_right = 152.0
-offset_bottom = 48.0
-
-[node name="d2" parent="rank2" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 156.0
-offset_right = 204.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="e2" parent="rank2" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 208.0
-offset_right = 256.0
-offset_bottom = 48.0
-
-[node name="f2" parent="rank2" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 260.0
-offset_right = 308.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="g2" parent="rank2" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 312.0
-offset_right = 360.0
-offset_bottom = 48.0
-
-[node name="h2" parent="rank2" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 364.0
-offset_right = 412.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="rank1" type="HBoxContainer" parent="."]
-layout_mode = 2
-offset_top = 364.0
-offset_right = 1152.0
-offset_bottom = 412.0
-
-[node name="a1" parent="rank1" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_right = 48.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="b1" parent="rank1" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 52.0
-offset_right = 100.0
-offset_bottom = 48.0
-
-[node name="c1" parent="rank1" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 104.0
-offset_right = 152.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="d1" parent="rank1" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 156.0
-offset_right = 204.0
-offset_bottom = 48.0
-
-[node name="e1" parent="rank1" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 208.0
-offset_right = 256.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="f1" parent="rank1" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 260.0
-offset_right = 308.0
-offset_bottom = 48.0
-
-[node name="g1" parent="rank1" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 312.0
-offset_right = 360.0
-offset_bottom = 48.0
-color = Color(0.380392, 0.560784, 0.721569, 1)
-dark = true
-
-[node name="h1" parent="rank1" instance=ExtResource("1_jio5e")]
-layout_mode = 2
-offset_left = 364.0
-offset_right = 412.0
-offset_bottom = 48.0
-
-[node name="Bb" type="Sprite2D" parent="."]
-position = Vector2(128, 25)
+metadata/_edit_lock_ = true
+
+[node name="r0" type="Sprite2D" parent="board/pieces"]
+texture = ExtResource("12_vqel2")
+centered = false
+
+[node name="n0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(50, 0)
+texture = ExtResource("13_he2jj")
+centered = false
+
+[node name="b0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(100, 0)
 texture = ExtResource("2_50ipe")
+centered = false
 
-[node name="Bb2" type="Sprite2D" parent="."]
-position = Vector2(282, 25)
-texture = ExtResource("2_50ipe")
-
-[node name="Wp" type="Sprite2D" parent="."]
-position = Vector2(24, 336)
-texture = ExtResource("3_qwmjw")
-
-[node name="Wp2" type="Sprite2D" parent="."]
-position = Vector2(76, 336)
-texture = ExtResource("3_qwmjw")
-
-[node name="Wp3" type="Sprite2D" parent="."]
-position = Vector2(128, 336)
-texture = ExtResource("3_qwmjw")
-
-[node name="Wp4" type="Sprite2D" parent="."]
-position = Vector2(180, 335)
-texture = ExtResource("3_qwmjw")
-
-[node name="Wp5" type="Sprite2D" parent="."]
-position = Vector2(231, 336)
-texture = ExtResource("3_qwmjw")
-
-[node name="Wp6" type="Sprite2D" parent="."]
-position = Vector2(284, 336)
-texture = ExtResource("3_qwmjw")
-
-[node name="Wp7" type="Sprite2D" parent="."]
-position = Vector2(336, 336)
-texture = ExtResource("3_qwmjw")
-
-[node name="Wp8" type="Sprite2D" parent="."]
-position = Vector2(388, 335)
-texture = ExtResource("3_qwmjw")
-
-[node name="Bp" type="Sprite2D" parent="."]
-position = Vector2(25, 77)
-texture = ExtResource("4_3kjx2")
-
-[node name="Bp2" type="Sprite2D" parent="."]
-position = Vector2(76, 76)
-texture = ExtResource("4_3kjx2")
-
-[node name="Bp3" type="Sprite2D" parent="."]
-position = Vector2(128, 77)
-texture = ExtResource("4_3kjx2")
-
-[node name="Bp4" type="Sprite2D" parent="."]
-position = Vector2(179, 76)
-texture = ExtResource("4_3kjx2")
-
-[node name="Bp5" type="Sprite2D" parent="."]
-position = Vector2(231, 77)
-texture = ExtResource("4_3kjx2")
-
-[node name="Bp6" type="Sprite2D" parent="."]
-position = Vector2(283, 76)
-texture = ExtResource("4_3kjx2")
-
-[node name="Bp7" type="Sprite2D" parent="."]
-position = Vector2(335, 77)
-texture = ExtResource("4_3kjx2")
-
-[node name="Bp8" type="Sprite2D" parent="."]
-position = Vector2(386, 76)
-texture = ExtResource("4_3kjx2")
-
-[node name="Wk" type="Sprite2D" parent="."]
-position = Vector2(231, 383)
-texture = ExtResource("5_j5vyt")
-
-[node name="Wq" type="Sprite2D" parent="."]
-position = Vector2(179, 383)
-texture = ExtResource("6_uxtq0")
-
-[node name="Wb" type="Sprite2D" parent="."]
-position = Vector2(282, 385)
-texture = ExtResource("7_u34me")
-
-[node name="Wb2" type="Sprite2D" parent="."]
-position = Vector2(129, 387)
-texture = ExtResource("7_u34me")
-
-[node name="Wn" type="Sprite2D" parent="."]
-position = Vector2(73, 387)
-texture = ExtResource("8_fgrp3")
-
-[node name="Wn2" type="Sprite2D" parent="."]
-position = Vector2(334, 387)
-texture = ExtResource("8_fgrp3")
-
-[node name="Wr" type="Sprite2D" parent="."]
-position = Vector2(24, 383)
-texture = ExtResource("9_s3bng")
-
-[node name="Wr2" type="Sprite2D" parent="."]
-position = Vector2(387, 383)
-texture = ExtResource("9_s3bng")
-
-[node name="Bk" type="Sprite2D" parent="."]
-position = Vector2(232, 19)
-texture = ExtResource("10_ovlgv")
-
-[node name="Bq" type="Sprite2D" parent="."]
-position = Vector2(181, 19)
+[node name="q0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(150, 0)
 texture = ExtResource("11_eo4d2")
+centered = false
 
-[node name="Br" type="Sprite2D" parent="."]
-position = Vector2(25, 19)
-texture = ExtResource("12_vqel2")
+[node name="k0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(200, 0)
+texture = ExtResource("10_ovlgv")
+centered = false
 
-[node name="Br2" type="Sprite2D" parent="."]
-position = Vector2(389, 22)
-texture = ExtResource("12_vqel2")
+[node name="b1" type="Sprite2D" parent="board/pieces"]
+position = Vector2(250, 0)
+texture = ExtResource("2_50ipe")
+centered = false
 
-[node name="Bn" type="Sprite2D" parent="."]
-position = Vector2(75, 23)
+[node name="n1" type="Sprite2D" parent="board/pieces"]
+position = Vector2(300, 0)
 texture = ExtResource("13_he2jj")
+centered = false
 
-[node name="Bn2" type="Sprite2D" parent="."]
-position = Vector2(335, 23)
-texture = ExtResource("13_he2jj")
+[node name="r1" type="Sprite2D" parent="board/pieces"]
+position = Vector2(350, 0)
+texture = ExtResource("12_vqel2")
+centered = false
+
+[node name="p0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(0, 50)
+texture = ExtResource("4_3kjx2")
+centered = false
+
+[node name="p1" type="Sprite2D" parent="board/pieces"]
+position = Vector2(50, 50)
+texture = ExtResource("4_3kjx2")
+centered = false
+
+[node name="p2" type="Sprite2D" parent="board/pieces"]
+position = Vector2(100, 50)
+texture = ExtResource("4_3kjx2")
+centered = false
+
+[node name="p3" type="Sprite2D" parent="board/pieces"]
+position = Vector2(150, 50)
+texture = ExtResource("4_3kjx2")
+centered = false
+
+[node name="p4" type="Sprite2D" parent="board/pieces"]
+position = Vector2(200, 50)
+texture = ExtResource("4_3kjx2")
+centered = false
+
+[node name="p5" type="Sprite2D" parent="board/pieces"]
+position = Vector2(250, 50)
+texture = ExtResource("4_3kjx2")
+centered = false
+
+[node name="p6" type="Sprite2D" parent="board/pieces"]
+position = Vector2(300, 50)
+texture = ExtResource("4_3kjx2")
+centered = false
+
+[node name="p7" type="Sprite2D" parent="board/pieces"]
+position = Vector2(350, 50)
+texture = ExtResource("4_3kjx2")
+centered = false
+
+[node name="P0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(0, 300)
+texture = ExtResource("3_qwmjw")
+centered = false
+
+[node name="P1" type="Sprite2D" parent="board/pieces"]
+position = Vector2(50, 300)
+texture = ExtResource("3_qwmjw")
+centered = false
+
+[node name="P2" type="Sprite2D" parent="board/pieces"]
+position = Vector2(100, 300)
+texture = ExtResource("3_qwmjw")
+centered = false
+
+[node name="P3" type="Sprite2D" parent="board/pieces"]
+position = Vector2(150, 300)
+texture = ExtResource("3_qwmjw")
+centered = false
+
+[node name="P4" type="Sprite2D" parent="board/pieces"]
+position = Vector2(200, 300)
+texture = ExtResource("3_qwmjw")
+centered = false
+
+[node name="P5" type="Sprite2D" parent="board/pieces"]
+position = Vector2(250, 300)
+texture = ExtResource("3_qwmjw")
+centered = false
+
+[node name="P6" type="Sprite2D" parent="board/pieces"]
+position = Vector2(300, 300)
+texture = ExtResource("3_qwmjw")
+centered = false
+
+[node name="P7" type="Sprite2D" parent="board/pieces"]
+position = Vector2(350, 300)
+texture = ExtResource("3_qwmjw")
+centered = false
+
+[node name="R0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(0, 350)
+texture = ExtResource("9_s3bng")
+centered = false
+
+[node name="N0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(50, 350)
+texture = ExtResource("8_fgrp3")
+centered = false
+
+[node name="B0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(100, 350)
+texture = ExtResource("7_u34me")
+centered = false
+
+[node name="Q0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(150, 350)
+texture = ExtResource("6_uxtq0")
+centered = false
+
+[node name="K0" type="Sprite2D" parent="board/pieces"]
+position = Vector2(200, 350)
+texture = ExtResource("5_j5vyt")
+centered = false
+
+[node name="B1" type="Sprite2D" parent="board/pieces"]
+position = Vector2(250, 350)
+texture = ExtResource("7_u34me")
+centered = false
+
+[node name="N1" type="Sprite2D" parent="board/pieces"]
+position = Vector2(300, 350)
+texture = ExtResource("8_fgrp3")
+centered = false
+
+[node name="R1" type="Sprite2D" parent="board/pieces"]
+position = Vector2(350, 350)
+texture = ExtResource("9_s3bng")
+centered = false
+
+[node name="black-tray" type="Panel" parent="."]
+visible = false
+custom_minimum_size = Vector2(398, 96)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fuis7")
+script = ExtResource("1_mub75")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../board")
+libraries = {
+"": SubResource("AnimationLibrary_i6x5j")
+}
+autoplay = "fool's mate"
+movie_quit_on_finish = true
+
+[node name="GameEditor" type="Node" parent="." node_paths=PackedStringArray("player", "pieces", "board")]
+script = ExtResource("16_73dlk")
+player = NodePath("../AnimationPlayer")
+pieces = NodePath("../board/pieces")
+board = NodePath("../board")
+animation_name = "fool's mate"
