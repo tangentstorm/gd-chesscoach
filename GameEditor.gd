@@ -1,6 +1,5 @@
 @tool extends Node
 
-#@export_multiline var moves : String
 @export var go : bool = false :
 	set(v):
 		go = false
@@ -9,23 +8,20 @@
 @export var pieces : Node
 @export var board : Node
 @export var animation_name: String
+@export_multiline var json_moves: String = ""
 
-const FOOLS_MATE = [
-	[0.5, "P5", "f2", "f3"],
-	[0.5, "p4", "e7", "e6"],
-	[2.0, "P6", "g2", "g4"],
-	[1.0, "q0", "d8", "h4"]]
+func parse_moves() -> Array:
+	return JSON.parse_string(json_moves)
 
 func get_square(sq:String) -> ColorRect:
 	return board.find_child(sq)
 	
-const MOVE_DUR = 0.5
+const MOVE_DUR = 0.2
 
 func sq_pos(sq:String)->Vector2:
 	return get_square(sq).global_position
 
 func ensure_track(anim:Animation, trackPath:String) -> int:
-	print('ensure track: ', trackPath)
 	var found : bool = false
 	for i in range(anim.get_track_count()):
 		if str(anim.track_get_path(i)) == trackPath:
@@ -33,6 +29,12 @@ func ensure_track(anim:Animation, trackPath:String) -> int:
 	var ix = anim.add_track(Animation.TYPE_VALUE)
 	anim.track_set_path(ix, trackPath)
 	return ix
+
+func add_capture_keyframe(sprite:String, t:float):
+	var anim = get_animation()
+	var track = ensure_track(anim, 'pieces/' + sprite + ":modulate")
+	anim.track_insert_key(track, t-0.1, 0xffffffff)
+	anim.track_insert_key(track, t+0.1, 0xffffff00)
 
 func add_move_keyframe(id:String, t:float, p0:Vector2, p1:Vector2):
 	var anim = get_animation()
@@ -52,17 +54,26 @@ func clear_animation():
 
 
 func build_animation():
-	# TODO: parse actual moves into this form
-	var game = FOOLS_MATE
+	var game = parse_moves()
 	clear_animation()
-	print(game)
 	var i = 0; var t = 0.0
-	for step in game:
-		var delay = step[0]; var id = step[1]
-		var sq0 = step[2]; var sq1 = step[3]
-		var square = get_square(sq0)
+	# 0:num 1:side 2:clock 3:san 4:sprite 5:sq0 6:sq1 7:extra
+	for move in game:
+		var delay = 0.25
+		var sprite = move[4]
+		var sq0 = move[5]
+		var sq1 = move[6]
+		var extra:Dictionary = move[7]
 		t += delay
-		add_move_keyframe(id, t, sq_pos(sq0), sq_pos(sq1))
+		add_move_keyframe(sprite, t, sq_pos(sq0), sq_pos(sq1))
+		if extra.has('castle'):
+			var rook = extra['castle'][0]
+			var rsq0 = extra['castle'][1]
+			var rsq1 = extra['castle'][2]
+			add_move_keyframe(rook, t, sq_pos(rsq0), sq_pos(rsq1))
 		t += MOVE_DUR
+		if extra.has('capture'):
+			add_capture_keyframe(extra['capture'], t)
+
 	get_animation().length = t + 1
 	
